@@ -1,13 +1,12 @@
 <!doctype html>
 <html lang="ms">
 <head>
+<title>Lajur Artboard</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<title>Lajur Artboard</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap">
 <style>
@@ -226,6 +225,10 @@ tfoot td{font-weight:700}
 </main>
 <div id="toast" class="toast" hidden></div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
 <script>
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -368,7 +371,7 @@ $("#btnImport").onclick=()=>importRows(parseRows($("#paste").value));
 $("#csv").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>importRows(parseRows(r.result));r.readAsText(f);e.target.value=""};
 
 /* ---------- actions ---------- */
-async function safe(p){try{await p}catch(e){showStatus("Tidak dapat simpan: "+(e.code==="permission_denied"?"anda tiada akses edit pada app ini.":(e.message||e.code)))}}
+async function safe(p){try{await p}catch(e){showStatus("Tidak dapat simpan: "+(e.code==="permission-denied"||e.code==="permission_denied"?"tiada kebenaran (semak Firestore rules).":(e.message||e.code)))}}
 $("#orderList").addEventListener("click",e=>{const t=e.target;
   if(t.dataset.edit){if(!needWho())return;safe(S.db.doc("orders/"+t.dataset.edit).update({status:"siap",editedBy:cur().who,editedAt:Date.now()}))}
   if(t.dataset.unedit)safe(S.db.doc("orders/"+t.dataset.unedit).update({status:"baru"}));
@@ -396,8 +399,12 @@ $("#btnWorkers").onclick=()=>{const w=$("#wList").value.split("\n").map(s=>s.tri
 fillShiftBar();setTab(tab);
 showStatus("Memuatkan data…");
 (async()=>{
-  const db=await window.claude?.use?.("db");
-  if(!db){showStatus("Data kongsi tidak tersedia di paparan ini. Log masuk ke claude.ai untuk guna app ini.");return}
+  const cfg=window.FIREBASE_CONFIG;
+  if(!window.firebase){showStatus("Tidak dapat muat Firebase. Semak sambungan internet dan muat semula page.");return}
+  if(!cfg||!cfg.projectId||String(cfg.apiKey).startsWith("ISI_")){showStatus("Firebase belum disetkan. Isi fail firebase-config.js (lihat README).");return}
+  let db;
+  try{firebase.initializeApp(cfg);await firebase.auth().signInAnonymously();db=firebase.firestore()}
+  catch(e){showStatus("Tidak dapat sambung ke Firebase: "+(e.message||e.code));return}
   S.db=db;
   const timer=setTimeout(()=>showStatus("Belum dapat sambung ke data. Semak sambungan internet; data akan muncul bila sambungan pulih."),10000);
   const done=k=>{S.loaded[k]=true;if(S.loaded.o&&S.loaded.b&&S.loaded.c){clearTimeout(timer);showStatus("")}};
