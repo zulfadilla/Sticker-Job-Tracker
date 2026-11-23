@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Lajur Artboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: sticky shift bar, tabbed work lanes; artboard drawn at true 60:100 ratio */
+:root{
+  --bg:#f3f4f6; --panel:#ffffff; --ink:#14161c; --muted:#5f6573; --line:#dcdfe6;
+  --cyan:#0090c8; --magenta:#d0006f; --yellow:#e9b400; --key:#14161c;
+  --ok:#1f8a4c; --okbg:#e3f4ea; --warn:#a86400; --warnbg:#fdf1dc; --soft:#eceef2;
+  --f-display:"Archivo",system-ui,sans-serif; --f-body:"Inter",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111318; --panel:#1a1d24; --ink:#eceef3; --muted:#9aa1ae; --line:#2c3039;
+  --cyan:#35b6ea; --magenta:#ff4fa3; --yellow:#f5c836; --key:#eceef3;
+  --ok:#55c987; --okbg:#173225; --warn:#f0b35a; --warnbg:#3a2b14; --soft:#22262e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111318; --panel:#1a1d24; --ink:#eceef3; --muted:#9aa1ae; --line:#2c3039;
+  --cyan:#35b6ea; --magenta:#ff4fa3; --yellow:#f5c836; --key:#eceef3;
+  --ok:#55c987; --okbg:#173225; --warn:#f0b35a; --warnbg:#3a2b14; --soft:#22262e; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--panel)}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:1px solid var(--line)}
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:18px;letter-spacing:-.01em}
+.reg{width:22px;height:22px;flex:none}
+.shift{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-left:auto}
+.shift label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+select,input,textarea,button{font:inherit;color:inherit}
+select,input,textarea{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;min-width:0}
+textarea{width:100%;font-family:var(--f-mono);font-size:12px}
+button{cursor:pointer;border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:6px 12px;font-weight:600}
+button:hover{border-color:var(--muted)}
+button.pri{background:var(--key);color:var(--panel);border-color:var(--key)}
+button.small{padding:3px 9px;font-size:12px}
+button:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+nav{display:flex;gap:4px;overflow-x:auto}
+nav button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:8px 12px;color:var(--muted)}
+nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--magenta)}
+main{padding-block:18px 48px;display:grid;gap:18px}
+h2{font-family:var(--f-display);font-size:20px;margin:0;text-wrap:balance}
+h3{font-family:var(--f-display);font-size:15px;margin:0}
+.muted{color:var(--muted)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:12px;min-width:0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.spread{justify-content:space-between}
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:2px;min-width:0}
+.step b{font-family:var(--f-display);font-size:28px;font-variant-numeric:tabular-nums;line-height:1.1}
+.step span{font-size:12px;color:var(--muted)}
+.step small{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.step.hl{border-color:var(--magenta);box-shadow:inset 0 3px 0 var(--magenta)}
+@media (max-width:760px){.pipe{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:420px){.pipe{grid-template-columns:repeat(2,1fr)}}
+/* list rows */
+.list{display:grid;border-top:1px solid var(--line)}
+.item{display:grid;grid-template-columns:28px 130px 1fr 60px 150px auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.item>*{min-width:0}
+.item .t{font-weight:600;overflow-wrap:anywhere}
+.item .s{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+@media (max-width:700px){.item{grid-template-columns:28px 1fr auto;}.item .c-qty,.item .c-stat{grid-column:2/4}.item .c-act{grid-column:2/4}}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--soft);white-space:nowrap}
+.chip.tt{background:color-mix(in srgb,var(--key) 12%,transparent)}
+.chip.sp{background:color-mix(in srgb,#ee4d2d 18%,transparent);color:color-mix(in srgb,#ee4d2d 70%,var(--ink))}
+.st{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap;display:inline-block}
+.st-baru{background:var(--warnbg);color:var(--warn)}
+.st-siap{background:color-mix(in srgb,var(--cyan) 15%,transparent);color:var(--cyan)}
+.st-board{background:color-mix(in srgb,var(--magenta) 14%,transparent);color:var(--magenta)}
+.st-pos{background:var(--okbg);color:var(--ok)}
+/* artboards */
+.boards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.board{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:10px;min-width:0}
+.board.open{border-color:var(--cyan)}
+.sheet{position:relative;width:100%;max-width:100%;aspect-ratio:60/100;background:repeating-linear-gradient(0deg,transparent 0 9.9%,var(--line) 9.9% 10%),repeating-linear-gradient(90deg,transparent 0 16.6%,var(--line) 16.6% 16.7%),var(--bg);border:1px dashed var(--muted);border-radius:3px;padding:8px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:5px;overflow:hidden}
+.sheet .dim{position:absolute;right:6px;bottom:4px;font-family:var(--f-mono);font-size:10px;color:var(--muted)}
+.tile{font-family:var(--f-mono);font-size:10px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--magenta);border-radius:3px;padding:3px 5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;gap:4px;align-items:center}
+.tile button{border:0;padding:0 2px;background:none;font-size:11px;color:var(--muted)}
+.stages{display:flex;gap:3px}
+.stages i{flex:1;height:5px;border-radius:2px;background:var(--soft)}
+.stages i.on{background:var(--magenta)}
+.stamp{font-size:12px;color:var(--muted);display:grid;gap:1px}
+.picker{display:grid;gap:4px;max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:6px;padding:6px}
+.picker label{display:flex;gap:6px;align-items:center;font-size:13px}
+/* pay */
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+td.n,th.n{text-align:right}
+tfoot td{font-weight:700}
+.bar{height:8px;border-radius:4px;background:var(--soft);overflow:hidden;min-width:80px}
+.bar.big{height:14px}
+.bar i{display:block;height:100%;background:var(--magenta);border-radius:inherit}
+.bar i.done{background:var(--ok)}
+.capai{display:flex;align-items:center;gap:8px}.capai .bar{flex:1}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:760px){.two{grid-template-columns:1fr}}
+.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:8px}
+.note{font-size:12px;color:var(--muted)}
+.banner{background:var(--warnbg);color:var(--warn);padding:8px 12px;border-radius:6px;font-size:13px}
+.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--key);color:var(--panel);padding:8px 14px;border-radius:6px;font-weight:600;z-index:20}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--muted)}
+.flow b{color:var(--ink);font-weight:600}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header>
+  <div class="wrap top">
+    <div class="brand">
+      <svg class="reg" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="6" fill="none" stroke="var(--ink)" stroke-width="1.5"/><path d="M11 0v22M0 11h22" stroke="var(--ink)" stroke-width="1.5"/><circle cx="11" cy="11" r="2.4" fill="var(--magenta)"/></svg>
+      Lajur Artboard
+    </div>
+    <div class="shift">
+      <label for="sDate">Shift</label>
+      <input id="sDate" type="date">
+      <select id="sName"></select>
+      <label for="sWho">Saya</label>
+      <select id="sWho"></select>
+    </div>
+  </div>
+  <div class="wrap"><nav id="tabs" role="tablist">
+    <button role="tab" data-t="papan" aria-selected="true">Papan</button>
+    <button role="tab" data-t="order">Order</button>
+    <button role="tab" data-t="artboard">Artboard 60×100</button>
+    <button role="tab" data-t="gaji">Target</button>
+    <button role="tab" data-t="tetapan">Tetapan</button>
+  </nav></div>
+</header>
+
+<main class="wrap">
+  <div id="status" class="banner" hidden></div>
+
+  <!-- PAPAN -->
+  <section data-v="papan" style="display:grid;gap:18px">
+    <div class="row spread"><h2>Aliran kerja hari ini</h2><span class="note" id="shiftLabel"></span></div>
+    <div class="pipe" id="pipe"></div>
+    <div class="panel">
+      <div class="row spread"><h3>Target shift ini</h3><span class="mono" id="shiftCount"></span></div>
+      <div class="bar big"><i id="shiftBar"></i></div>
+      <div id="shiftBoards"></div>
+      <p class="note">Artboard 60 × 100 cm dikira "keluar" bila ditanda <b>Siap print</b>.</p>
+    </div>
+  </section>
+
+  <!-- ORDER -->
+  <section data-v="order" hidden style="display:grid;gap:18px">
+    <div class="panel">
+      <div class="row spread"><h3>Masukkan order dari Excel</h3><span class="note">TikTok &amp; Shopee</span></div>
+      <p class="note">Salin baris dari Excel dan tampal di sini. Susunan lajur: <span class="mono">No Order · Platform · Nama Pelanggan · Design/Produk · Kuantiti · Nota</span>. Baris tajuk akan diabaikan. Order yang sama tidak akan dimasukkan dua kali.</p>
+      <textarea id="paste" rows="5" placeholder="580123456789	Shopee	Aina	Sticker nama botol (biru)	2	Font bulat"></textarea>
+      <div class="row"><button class="pri" id="btnImport">Masukkan order</button><span class="note">atau</span><label class="note">fail CSV <input type="file" id="csv" accept=".csv,.txt"></label></div>
+    </div>
+    <div class="panel">
+      <div class="row spread">
+        <h3>Senarai order</h3>
+        <div class="row">
+          <input id="q" placeholder="Cari no order / nama" aria-label="Cari">
+          <select id="fStat" aria-label="Tapis status">
+            <option value="">Semua status</option><option value="baru">Perlu edit</option><option value="siap">Siap edit</option><option value="board">Dalam artboard</option><option value="pos">Dah pos</option>
+          </select>
+        </div>
+      </div>
+      <div class="list" id="orderList"></div>
+    </div>
+  </section>
+
+  <!-- ARTBOARD -->
+  <section data-v="artboard" hidden style="display:grid;gap:18px">
+    <div class="row spread">
+      <div><h2>Artboard 60 × 100 cm</h2><div class="flow"><b>Susun</b>→<b>Dalam printer</b>→<b>Siap print</b>→<b>Potong &amp; bungkus</b>→<b>Pos</b></div></div>
+      <div class="row"><select id="fStage" aria-label="Tapis peringkat"><option value="aktif">Aktif</option><option value="all">Semua</option><option value="pos">Dah pos</option></select><button class="pri" id="btnNewBoard">+ Artboard baru</button></div>
+    </div>
+    <div class="boards" id="boards"></div>
+  </section>
+
+  <!-- TARGET -->
+  <section data-v="gaji" hidden style="display:grid;gap:18px">
+    <div class="panel">
+      <div class="row spread">
+        <h3>Pencapaian target ikut shift</h3>
+        <div class="row">
+          <label class="note" for="pFrom">Dari</label><input type="date" id="pFrom">
+          <label class="note" for="pTo">Hingga</label><input type="date" id="pTo">
+          <select id="pShift" aria-label="Shift"><option value="">Semua shift</option></select>
+        </div>
+      </div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Tarikh</th><th>Shift</th><th class="n">Keluar</th><th class="n">Target</th><th style="min-width:160px">Capai</th></tr></thead>
+        <tbody id="shiftBody"></tbody><tfoot id="payFoot"></tfoot>
+      </table></div>
+      <p class="note" id="payRule"></p>
+    </div>
+  </section>
+
+  <!-- TETAPAN -->
+  <section data-v="tetapan" hidden style="display:grid;gap:18px">
+    <div class="two">
+      <div class="panel">
+        <h3>Target artboard</h3>
+        <div class="row"><label for="rT" style="width:180px">Artboard 60 × 100 setiap shift</label><input id="rT" type="number" step="1" min="1" style="width:100px"></div>
+        <div><button class="pri" id="btnRates">Simpan target</button></div>
+      </div>
+      <div class="panel">
+        <h3>Pekerja &amp; shift</h3>
+        <label class="note" for="wList">Nama pekerja (satu baris satu nama)</label>
+        <textarea id="wList" rows="5" style="font-family:var(--f-body);font-size:14px"></textarea>
+        <label class="note" for="shList">Nama shift (dipisah koma)</label>
+        <input id="shList">
+        <div><button class="pri" id="btnWorkers">Simpan</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+const STAGES=["susun","print","siap","packed","pos"];
+const STAGE_LABEL={susun:"Susun",print:"Dalam printer",siap:"Siap print",packed:"Siap bungkus",pos:"Dah pos"};
+const NEXT={susun:["print","Penuh, hantar print"],print:["siap","Siap print"],siap:["packed","Siap potong & bungkus"],packed:["pos","Dah pos"]};
+const S={db:null,orders:[],boards:[],cfg:{workers:[],shifts:["Pagi","Malam"],target:20},loaded:{o:false,b:false,c:false}};
+let tab=ls.get("tab","papan");
+
+function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function cur(){return{date:$("#sDate").value||today(),shift:$("#sName").value||S.cfg.shifts[0],who:$("#sWho").value||""}}
+function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2200)}
+function showStatus(m){const s=$("#status");s.textContent=m||"";s.hidden=!m}
+function fmtT(ts){if(!ts)return"";const d=new Date(ts);return d.toLocaleDateString("ms-MY",{day:"numeric",month:"short"})+" "+d.toLocaleTimeString("ms-MY",{hour:"2-digit",minute:"2-digit"})}
+function rm(n){return(Math.round(n*100)/100).toFixed(2)}
+
+/* ---------- tabs ---------- */
+function setTab(t){tab=t;ls.set("tab",t);document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===t));document.querySelectorAll("[data-v]").forEach(s=>s.hidden=s.dataset.v!==t);render()}
+$("#tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(b)setTab(b.dataset.t)});
+
+/* ---------- shift bar ---------- */
+function fillShiftBar(){
+  const sd=$("#sDate");if(!sd.value)sd.value=ls.get("sDate",today());
+  const sn=$("#sName"),keepS=sn.value||ls.get("sName","");
+  sn.innerHTML=S.cfg.shifts.map(s=>`<option>${esc(s)}</option>`).join("");
+  if(S.cfg.shifts.includes(keepS))sn.value=keepS;else sn.value=S.cfg.shifts[new Date().getHours()>=16&&S.cfg.shifts.length>1?1:0];
+  const sw=$("#sWho"),keepW=sw.value||ls.get("sWho","");
+  sw.innerHTML=`<option value="">— pilih nama —</option>`+S.cfg.workers.map(w=>`<option>${esc(w)}</option>`).join("");
+  if(S.cfg.workers.includes(keepW))sw.value=keepW;
+  $("#pShift").innerHTML=`<option value="">Semua shift</option>`+S.cfg.shifts.map(s=>`<option>${esc(s)}</option>`).join("");
+}
+["sDate","sName","sWho"].forEach(id=>$("#"+id).addEventListener("change",e=>{ls.set(id,e.target.value);render()}));
+function needWho(){if(!cur().who){toast("Pilih nama anda di bar atas dulu");$("#sWho").focus();return false}return true}
+
+/* ---------- derived ---------- */
+const boardById=id=>S.boards.find(b=>b.id===id);
+function orderStat(o){if(o.board){const b=boardById(o.board);if(b&&b.stage==="pos")return"pos";if(b)return"board"}return o.status==="siap"?"siap":"baru"}
+const STAT_LABEL={baru:"Perlu edit",siap:"Siap edit",board:"Dalam artboard",pos:"Dah pos"};
+function stampIn(st,from,to,shift){return st&&st.date>=from&&st.date<=to&&(!shift||st.shift===shift)}
+
+/* ---------- render ---------- */
+function render(){
+  if(!S.db){return}
+  const c=cur();$("#shiftLabel").textContent=`${c.date} · Shift ${c.shift}`;
+  if(tab==="papan")renderPapan();
+  if(tab==="order")renderOrders();
+  if(tab==="artboard")renderBoards();
+  if(tab==="gaji")renderPay();
+  if(tab==="tetapan")renderSettings();
+}
+function renderPapan(){
+  const c=cur(),os=S.orders.map(orderStat);
+  const cnt=k=>os.filter(s=>s===k).length,bs=k=>S.boards.filter(b=>b.stage===k).length;
+  const steps=[["Order","Perlu edit",cnt("baru")],["Design","Siap edit, belum susun",cnt("siap")],["Artboard","Sedang disusun",bs("susun")],["Printer","Dalam printer",bs("print")],["Packing","Tunggu potong & bungkus",bs("siap")],["Pos","Tunggu pos",bs("packed")]];
+  const max=Math.max(...steps.map(s=>s[2]));
+  $("#pipe").innerHTML=steps.map(s=>`<div class="step ${s[2]&&s[2]===max?"hl":""}"><small>${s[0]}</small><b>${s[2]}</b><span>${s[1]}</span></div>`).join("");
+  const out=S.boards.filter(b=>stampIn(b.stamps?.siap,c.date,c.date,c.shift));
+  const tg=S.cfg.target,pc=Math.min(100,Math.round(out.length/tg*100));
+  $("#shiftCount").textContent=`${out.length} / ${tg} artboard · ${Math.round(out.length/tg*100)}%`;
+  const sb=$("#shiftBar");sb.style.width=pc+"%";sb.className=out.length>=tg?"done":"";
+  $("#shiftBoards").innerHTML=out.length?`<div class="list">${out.map(b=>`<div class="row spread" style="padding:8px 0;border-bottom:1px solid var(--line)"><span class="mono">${esc(b.code)}</span><span class="note">Design ${esc(b.designer||"-")} · Print ${esc(b.stamps.siap.by||"-")} · ${b.orders?.length||0} order</span><span class="st st-board">${STAGE_LABEL[b.stage]}</span></div>`).join("")}</div>`:`<div class="empty">Belum ada artboard siap print untuk shift ini.</div>`;
+}
+function renderOrders(){
+  const q=$("#q").value.trim().toLowerCase(),f=$("#fStat").value;
+  let list=S.orders.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  list=list.filter(o=>(!f||orderStat(o)===f)&&(!q||(o.no+" "+o.customer+" "+o.item).toLowerCase().includes(q)));
+  if(!S.orders.length){$("#orderList").innerHTML=`<div class="empty">Belum ada order. Tampal baris dari Excel di atas untuk mula.</div>`;return}
+  if(!list.length){$("#orderList").innerHTML=`<div class="empty">Tiada order padan dengan tapisan.</div>`;return}
+  $("#orderList").innerHTML=list.slice(0,300).map(o=>{const st=orderStat(o),b=o.board&&boardById(o.board);
+    return `<div class="item">
+      <span class="chip ${o.platform==="TikTok"?"tt":"sp"}" title="${esc(o.platform)}">${o.platform==="TikTok"?"TT":"SP"}</span>
+      <span class="mono" style="font-size:12px;overflow-wrap:anywhere">${esc(o.no)}</span>
+      <div><div class="t">${esc(o.item)}</div><div class="s">${esc(o.customer)}${o.note?" · "+esc(o.note):""}</div></div>
+      <span class="mono c-qty">× ${esc(o.qty)}</span>
+      <span class="c-stat"><span class="st st-${st}">${STAT_LABEL[st]}</span>${b?` <span class="mono note">${esc(b.code)}</span>`:""}${o.editedBy&&st!=="baru"?`<div class="s">edit: ${esc(o.editedBy)}</div>`:""}</span>
+      <span class="c-act row">${st==="baru"?`<button class="small" data-edit="${o.id}">Tanda siap edit</button>`:st==="siap"?`<button class="small" data-unedit="${o.id}">Batal</button>`:""}<button class="small" data-del="${o.id}" title="Padam order" aria-label="Padam order">✕</button></span>
+    </div>`}).join("")+(list.length>300?`<p class="note">Menunjukkan 300 pertama daripada ${list.length}.</p>`:"");
+}
+function renderBoards(){
+  const f=$("#fStage").value;
+  let list=S.boards.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  list=list.filter(b=>f==="all"||(f==="pos"?b.stage==="pos":b.stage!=="pos"));
+  if(!list.length){$("#boards").innerHTML=`<div class="empty" style="grid-column:1/-1">Tiada artboard ${f==="pos"?"yang dah dipos":"aktif"}. Tekan <b>+ Artboard baru</b> untuk mula susun sticker dalam kertas 60 × 100 cm.</div>`;return}
+  const ready=S.orders.filter(o=>orderStat(o)==="siap");
+  $("#boards").innerHTML=list.map(b=>{
+    const ords=(b.orders||[]).map(id=>S.orders.find(o=>o.id===id)).filter(Boolean);
+    const si=STAGES.indexOf(b.stage),nx=NEXT[b.stage],qty=ords.reduce((a,o)=>a+(+o.qty||0),0);
+    const st=b.stamps||{};
+    return `<article class="board ${b.stage==="susun"?"open":""}">
+      <div class="row spread"><span class="mono" style="font-weight:600">${esc(b.code)}</span><span class="st st-${b.stage==="pos"?"pos":"board"}">${STAGE_LABEL[b.stage]}</span></div>
+      <div class="stages">${STAGES.map((s,i)=>`<i class="${i<=si?"on":""}"></i>`).join("")}</div>
+      <div class="sheet">${ords.map(o=>`<span class="tile" title="${esc(o.item)}">${esc(o.no.slice(-6))} ×${esc(o.qty)}${b.stage==="susun"?`<button data-rm="${b.id}|${o.id}" aria-label="Keluarkan dari artboard">✕</button>`:""}</span>`).join("")}<span class="dim">60 × 100 cm</span></div>
+      <div class="note">${ords.length} order · ${qty} sticker · Designer: <b>${esc(b.designer||"-")}</b></div>
+      ${b.stage==="susun"?`<details><summary class="note" style="cursor:pointer">Tambah order siap edit (${ready.length})</summary>
+        ${ready.length?`<div class="picker" data-pick="${b.id}">${ready.map(o=>`<label><input type="checkbox" value="${o.id}"> <span class="mono">${esc(o.no.slice(-6))}</span> ${esc(o.item)} ×${esc(o.qty)}</label>`).join("")}</div><button class="small" data-add="${b.id}" style="margin-top:6px">Masukkan ke artboard</button>`:`<p class="note">Tiada order siap edit. Tanda order di tab Order dulu.</p>`}</details>`:""}
+      <div class="stamp">${["print","siap","packed","pos"].filter(k=>st[k]).map(k=>`<span>${STAGE_LABEL[k]}: ${esc(st[k].by)} · ${fmtT(st[k].at)} · ${esc(st[k].shift)}</span>`).join("")}</div>
+      <div class="row">${nx?`<button class="pri small" data-next="${b.id}" ${b.stage==="susun"&&!ords.length?"disabled":""}>${nx[1]}</button>`:""}${si>0&&b.stage!=="pos"?`<button class="small" data-back="${b.id}">Undur</button>`:""}${b.stage==="susun"&&!ords.length?`<button class="small" data-delb="${b.id}">Padam</button>`:""}</div>
+    </article>`}).join("");
+}
+function renderPay(){
+  if(!$("#pFrom").value){$("#pFrom").value=cur().date;$("#pTo").value=cur().date}
+  const from=$("#pFrom").value,to=$("#pTo").value||from,sh=$("#pShift").value,tg=S.cfg.target;
+  const g={};for(const b of S.boards){const s=b.stamps?.siap;if(stampIn(s,from,to,sh)){const k=s.date+"|"+s.shift;g[k]=(g[k]||0)+1}}
+  // include the current shift even when nothing is out yet
+  const c=cur();if(c.date>=from&&c.date<=to&&(!sh||sh===c.shift)){const k=c.date+"|"+c.shift;g[k]??=0}
+  const ks=Object.keys(g).sort().reverse();let tot=0,hit=0;
+  $("#shiftBody").innerHTML=ks.length?ks.map(k=>{const[d,s]=k.split("|"),n=g[k],p=Math.round(n/tg*100);tot+=n;if(n>=tg)hit++;
+    return`<tr><td class="mono">${esc(d)}</td><td>${esc(s)}</td><td class="n mono">${n}</td><td class="n mono">${tg}</td><td><div class="capai"><div class="bar"><i class="${n>=tg?"done":""}" style="width:${Math.min(100,p)}%"></i></div><span class="mono">${p}%</span></div></td></tr>`}).join(""):`<tr><td colspan="5"><div class="empty">Tiada artboard keluar dalam tempoh ini.</div></td></tr>`;
+  $("#payFoot").innerHTML=ks.length?`<tr><td colspan="2">Jumlah (${ks.length} shift)</td><td class="n mono">${tot}</td><td class="n mono">${tg*ks.length}</td><td class="mono">${hit} shift capai target</td></tr>`:"";
+  $("#payRule").textContent=`Target semasa: ${tg} artboard 60 × 100 cm setiap shift. Tukar di tab Tetapan.`;
+}
+function renderSettings(){
+  if(document.activeElement?.closest?.("[data-v=tetapan]"))return;
+  $("#rT").value=S.cfg.target;
+  $("#wList").value=S.cfg.workers.join("\n");$("#shList").value=S.cfg.shifts.join(", ");
+}
+["q","fStat"].forEach(id=>$("#"+id).addEventListener("input",renderOrders));
+$("#fStage").addEventListener("change",renderBoards);
+["pFrom","pTo","pShift"].forEach(id=>$("#"+id).addEventListener("change",renderPay));
+
+/* ---------- import ---------- */
+function parseRows(text){
+  const lines=text.split(/\r?\n/).filter(l=>l.trim());const out=[];
+  for(const l of lines){const cols=l.includes("\t")?l.split("\t"):l.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(x=>x.replace(/^"|"$/g,""));
+    const [no,plat,cust,item,qty,note]=cols.map(x=>(x||"").trim());
+    if(!no||/order/i.test(no))continue;
+    const p=/tik/i.test(plat)?"TikTok":/sho/i.test(plat)?"Shopee":(plat||"Shopee");
+    out.push({no,platform:p,customer:cust||"",item:item||"",qty:parseInt(qty)||1,note:note||""})}
+  return out}
+const idFor=o=>(o.platform.slice(0,2)+"_"+o.no).replace(/[^A-Za-z0-9_-]/g,"").slice(0,120);
+async function importRows(rows){
+  if(!rows.length){toast("Tiada baris order dikesan");return}
+  const have=new Set(S.orders.map(o=>o.id));let n=0;
+  for(const o of rows){const id=idFor(o);if(have.has(id))continue;have.add(id);
+    try{await S.db.collection("orders").doc(id).set({...o,status:"baru",board:null,createdAt:Date.now()});n++}catch(e){showStatus("Gagal simpan order: "+(e.message||e.code));break}}
+  toast(`${n} order baru dimasukkan${rows.length-n?`, ${rows.length-n} sudah ada`:""}`);$("#paste").value="";
+}
+$("#btnImport").onclick=()=>importRows(parseRows($("#paste").value));
+$("#csv").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>importRows(parseRows(r.result));r.readAsText(f);e.target.value=""};
+
+/* ---------- actions ---------- */
+async function safe(p){try{await p}catch(e){showStatus("Tidak dapat simpan: "+(e.code==="permission_denied"?"anda tiada akses edit pada app ini.":(e.message||e.code)))}}
+$("#orderList").addEventListener("click",e=>{const t=e.target;
+  if(t.dataset.edit){if(!needWho())return;safe(S.db.doc("orders/"+t.dataset.edit).update({status:"siap",editedBy:cur().who,editedAt:Date.now()}))}
+  if(t.dataset.unedit)safe(S.db.doc("orders/"+t.dataset.unedit).update({status:"baru"}));
+  if(t.dataset.del){if(t.dataset.sure){safe(S.db.doc("orders/"+t.dataset.del).delete())}else{t.dataset.sure=1;t.textContent="Padam?";setTimeout(()=>{if(t.isConnected){delete t.dataset.sure;t.textContent="✕"}},3000)}}
+});
+$("#btnNewBoard").onclick=async()=>{if(!needWho())return;const c=cur(),d=c.date.slice(2).replace(/-/g,"");
+  const same=S.boards.filter(b=>b.code?.startsWith("AB-"+d)).length;
+  await safe(S.db.collection("boards").add({code:`AB-${d}-${String(same+1).padStart(2,"0")}`,stage:"susun",designer:c.who,orders:[],stamps:{},createdAt:Date.now()}));
+  $("#fStage").value="aktif";renderBoards()};
+$("#boards").addEventListener("click",async e=>{const t=e.target,c=cur();
+  if(t.dataset.add){const box=document.querySelector(`[data-pick="${t.dataset.add}"]`);const ids=[...box.querySelectorAll("input:checked")].map(i=>i.value);if(!ids.length)return;
+    const b=boardById(t.dataset.add);await safe(S.db.doc("boards/"+b.id).update({orders:[...(b.orders||[]),...ids]}));
+    for(const id of ids)await safe(S.db.doc("orders/"+id).update({board:b.id}));toast(`${ids.length} order masuk ${b.code}`)}
+  if(t.dataset.rm){const[bid,oid]=t.dataset.rm.split("|"),b=boardById(bid);await safe(S.db.doc("boards/"+bid).update({orders:(b.orders||[]).filter(x=>x!==oid)}));await safe(S.db.doc("orders/"+oid).update({board:null}))}
+  if(t.dataset.next){if(!needWho())return;const b=boardById(t.dataset.next),[to]=NEXT[b.stage];
+    await safe(S.db.doc("boards/"+b.id).update({stage:to,stamps:{...(b.stamps||{}),[to]:{by:c.who,at:Date.now(),date:c.date,shift:c.shift}}}));toast(`${b.code}: ${STAGE_LABEL[to]}`)}
+  if(t.dataset.back){const b=boardById(t.dataset.back),i=STAGES.indexOf(b.stage),st={...(b.stamps||{})};delete st[b.stage];await safe(S.db.doc("boards/"+b.id).update({stage:STAGES[i-1],stamps:st}))}
+  if(t.dataset.delb)await safe(S.db.doc("boards/"+t.dataset.delb).delete());
+});
+$("#btnRates").onclick=()=>{const cfg={...S.cfg,target:Math.max(1,parseInt($("#rT").value)||1)};safe(S.db.doc("config/main").set(cfg)).then(()=>toast("Target disimpan"))};
+$("#btnWorkers").onclick=()=>{const w=$("#wList").value.split("\n").map(s=>s.trim()).filter(Boolean),sh=$("#shList").value.split(",").map(s=>s.trim()).filter(Boolean);
+  safe(S.db.doc("config/main").set({...S.cfg,workers:[...new Set(w)],shifts:sh.length?sh:["Pagi","Malam"]})).then(()=>toast("Disimpan"))};
+
+/* ---------- boot ---------- */
+fillShiftBar();setTab(tab);
+showStatus("Memuatkan data…");
+(async()=>{
+  const db=await window.claude?.use?.("db");
+  if(!db){showStatus("Data kongsi tidak tersedia di paparan ini. Log masuk ke claude.ai untuk guna app ini.");return}
+  S.db=db;
+  const timer=setTimeout(()=>showStatus("Belum dapat sambung ke data. Semak sambungan internet; data akan muncul bila sambungan pulih."),10000);
+  const done=k=>{S.loaded[k]=true;if(S.loaded.o&&S.loaded.b&&S.loaded.c){clearTimeout(timer);showStatus("")}};
+  const err=e=>{clearTimeout(timer);showStatus("Ralat data: "+(e.message||e.code))};
+  db.collection("orders").onSnapshot(s=>{S.orders=s.docs.map(d=>({id:d.id,...d.data()}));if(!s.metadata.fromCache)done("o");render()},err);
+  db.collection("boards").onSnapshot(s=>{S.boards=s.docs.map(d=>({id:d.id,...d.data()}));if(!s.metadata.fromCache)done("b");render()},err);
+  db.doc("config/main").onSnapshot(s=>{if(s.exists){const d=s.data();S.cfg={workers:d.workers||[],shifts:d.shifts?.length?d.shifts:["Pagi","Malam"],target:+d.target>0?+d.target:20}}if(!s.metadata.fromCache)done("c");fillShiftBar();render()},err);
+})();
+</script>
+
+</body>
+</html>
