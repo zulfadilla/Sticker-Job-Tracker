@@ -2,7 +2,7 @@
 
 App ringkas untuk tracking kerja printing sticker atas artboard **60 × 100 cm**, dari order sampai pos, dan tengok target artboard setiap shift. Semua staff dan boss guna satu link, tanpa perlu buat akaun.
 
-Link (selepas GitHub Pages dihidupkan): `https://zulfadilla.github.io/sticker-job-tracker/`
+Link: **https://sticker-job-tracker.netlify.app** (Netlify). Boleh juga guna GitHub Pages: `https://zulfadilla.github.io/sticker-job-tracker/`
 
 ## Aliran kerja
 
